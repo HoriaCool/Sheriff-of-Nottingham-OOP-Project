@@ -8,10 +8,21 @@ public final class Main {
     }
 
     public static void main(final String[] args) {
-        /*
         GameInputLoader gameInputLoader = new GameInputLoader(args[0], args[1]);
         GameInput gameInput = gameInputLoader.load();
 
+        System.out.println(gameInput.getRows());
+        System.out.println(gameInput.getColumns());
+        System.out.println(gameInput.getMap());
+        System.out.println(gameInput.getNumPlayers());
+        System.out.println(gameInput.getPlayersType());
+        System.out.println(gameInput.getXCoordinate());
+        System.out.println(gameInput.getYCoordinate());
+        System.out.println(gameInput.getRounds());
+        System.out.println(gameInput.getMoves());
+
+
+        /*
         if (gameInput.isValidInput()) {
             GoodsFactory goodsFactory = GoodsFactory.getInstance();
             GameLogic gameLogic = new GameLogic(gameInput);
