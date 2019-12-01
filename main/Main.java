@@ -42,11 +42,41 @@ public final class Main {
         // for (int i = 0; i < gameInput.getNumPlayers(); ++i) {
         //     PlayerFactory.getInstance().getPlayerByName(gameInput.getPlayersType().get(i)).getPrice();
         // }
-        Player pl1, pl2;
+
+        Player pl1, pl2, pl3, pl4;
         pl1 = PlayerFactory.getInstance().getPlayerByName("P");
         pl2 = PlayerFactory.getInstance().getPlayerByName("K");
-        pl1.acceptsAbilityFrom(pl2);
-        pl2.acceptsAbilityFrom(pl1);
+        pl3 = PlayerFactory.getInstance().getPlayerByName("W");
+        pl4 = PlayerFactory.getInstance().getPlayerByName("R");
+        pl1.getPrice();
+        pl2.getPrice();
+        pl3.getPrice();
+        pl4.getPrice();
+
+        //pl1.getDamage();
+        //pl2.getDamage();
+        //pl3.getDamage();
+        //pl4.getDamage();
+
+        pl1.acceptAbilityFrom(pl1);
+        pl2.acceptAbilityFrom(pl1);
+        pl3.acceptAbilityFrom(pl1);
+        pl4.acceptAbilityFrom(pl1);
+
+        pl1.acceptAbilityFrom(pl2);
+        pl2.acceptAbilityFrom(pl2);
+        pl3.acceptAbilityFrom(pl2);
+        pl4.acceptAbilityFrom(pl2);
+
+        pl1.acceptAbilityFrom(pl3);
+        pl2.acceptAbilityFrom(pl3);
+        pl3.acceptAbilityFrom(pl3);
+        pl4.acceptAbilityFrom(pl3);
+
+        pl1.acceptAbilityFrom(pl4);
+        pl2.acceptAbilityFrom(pl4);
+        pl3.acceptAbilityFrom(pl4);
+        pl4.acceptAbilityFrom(pl4);
 
         /*
         if (gameInput.isValidInput()) {
