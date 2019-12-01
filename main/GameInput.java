@@ -14,6 +14,7 @@ public class GameInput {
     private final List<Integer> mYCoordinate;
     private final int mRounds;
     private final List<String> mMoves;
+    private static int mIndexMoves = 0;
 
     public GameInput() {
         mRows = -1;
@@ -77,12 +78,7 @@ public class GameInput {
         return mMoves;
     }
 
-    /*
-    public final boolean isValidInput() {
-        boolean membersInstantiated = mAssetOrder != null && mPlayersOrder != null;
-        boolean membersNotEmpty = mAssetOrder.size() > 0 && mPlayersOrder.size() > 0 && mRounds > 0;
-
-        return membersInstantiated && membersNotEmpty;
+    public final String getNextMoves() {
+        return mMoves.get(mIndexMoves++);
     }
-    */
 }

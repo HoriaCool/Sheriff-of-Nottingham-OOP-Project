@@ -1,0 +1,19 @@
+Starting audit...
+[ERROR] /home/horia/Desktop/Etapa1OOP/gameplay/Map.java:20:17: Parameter rows should be final. [FinalParameters]
+[ERROR] /home/horia/Desktop/Etapa1OOP/gameplay/Map.java:20:27: Parameter columns should be final. [FinalParameters]
+[ERROR] /home/horia/Desktop/Etapa1OOP/gameplay/Map.java:20:40: Parameter map should be final. [FinalParameters]
+[ERROR] /home/horia/Desktop/Etapa1OOP/gameplay/Map.java:29:29: Parameter x should be final. [FinalParameters]
+[ERROR] /home/horia/Desktop/Etapa1OOP/gameplay/Map.java:29:36: Parameter y should be final. [FinalParameters]
+[ERROR] /home/horia/Desktop/Etapa1OOP/gameplay/Map.java:43:33: Parameter rows should be final. [FinalParameters]
+[ERROR] /home/horia/Desktop/Etapa1OOP/gameplay/Map.java:43:43: Parameter columns should be final. [FinalParameters]
+[ERROR] /home/horia/Desktop/Etapa1OOP/gameplay/Map.java:43:56: Parameter map should be final. [FinalParameters]
+[ERROR] /home/horia/Desktop/Etapa1OOP/gameplay/Map.java:59: Line has trailing spaces. [RegexpSingleline]
+[ERROR] /home/horia/Desktop/Etapa1OOP/gameplay/PlayerFactory.java:26:42: Parameter playerName should be final. [FinalParameters]
+[ERROR] /home/horia/Desktop/Etapa1OOP/gameplay/PlayerFactory.java:29: switch without "default" clause. [MissingSwitchDefault]
+[ERROR] /home/horia/Desktop/Etapa1OOP/gameplay/Player.java:11:16: '8.5' is a magic number. [MagicNumber]
+[ERROR] /home/horia/Desktop/Etapa1OOP/gameplay/Player.java:17:16: '10.5' is a magic number. [MagicNumber]
+[ERROR] /home/horia/Desktop/Etapa1OOP/gameplay/Player.java:23:16: '11.5' is a magic number. [MagicNumber]
+[ERROR] /home/horia/Desktop/Etapa1OOP/gameplay/Player.java:29:16: '20.5' is a magic number. [MagicNumber]
+[ERROR] /home/horia/Desktop/Etapa1OOP/main/GameInput.java:31:12: More than 7 parameters (found 9). [ParameterNumber]
+Audit done.
+Checkstyle ends with 16 errors.
