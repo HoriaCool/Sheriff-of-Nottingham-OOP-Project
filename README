@@ -1,0 +1,49 @@
+Nedelcu Horia
+Grupa 321CA
+
+Descriere clase:
+
+Main:
+	- punctul de pornire al aplicatiei;
+	- se creeaza instante ale claselor GameInputOutputLoader si GameInput,
+care vor incarca datele problemei si al clasei GameLogic care se ocupa de
+simularea jocului.
+	- se creeaza instanta pentru mapa de joc.
+
+GameInputOutputLoder:
+	- incarca si descarca datele jocului in fisereul input, respectiv din 
+output.
+
+GameInput:
+	- pastreaza datele de intrare ale jocului simulat.
+
+GameLogic:
+	- functia gameStart deruleaza rundele si intoarce state-ul jucatorilor
+dupa terminarea acestora sub forma de string;
+	- stringul este preluat de catre gameInputOutputLoader in functia main;
+	- pentru fiecare runda:
+		* gameInput incarca stringul atasat listei de mutari;
+		* fiecare jucator este mutat conform listei si i se aplica efectul
+periodic daca este cazul;
+		* pentru fieacre pereche de jucatori din aceasi locatie ramasi in viata se
+simuleaza lupta acestora.
+
+Map:
+	- deorece jocul nu are nevoie decat de o harta, folosim singleton design
+in implementarea clasei si apelam metoda statica getInstance ori de cate ori
+este nevoie de informatii de pe harta.
+
+PlayerFactory:
+	- creeaza si intorce referinte de noi playeri ori de cate ori este nevoie;
+	- deoarece nu avem nevoie de mai mult de o instanta de acest fel, aplicam
+singleton pattern si aici.
+
+Player:
+	- este o clasa abstracta care contine membrii si metodele comune eroilor, dar si
+metodele care trebuie implementate diferit de catre fiecare tip in parte.
+	- pentru ca nu dorim sa lucram in codul principal (main) cu diferite tipuri
+de playeri, iar interactiunea dintre ei sa se faca automat la runtime, abordam
+pentru implementare visitor design;
+	- fiecare player are definite astfel accept_interactiune alt player si
+interactiune cu alt player care, in cazul jocului nostru, reprezinta aplicarea si
+acceptarea abilitatilor si a damage-ului celuilalt player.

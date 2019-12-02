@@ -16,6 +16,9 @@ public final class GameInputOutputLoader {
         mOutputPath = outputPath;
     }
 
+    /*
+     *  Load data from InputFile.
+     */
     public GameInput load() {
         int rows = 0;
         int columns = 0;
@@ -61,11 +64,14 @@ public final class GameInputOutputLoader {
             xCoordinate, yCoordinate, rounds, moves);
     }
 
-    public void write(String output) {
+    /*
+     *  Write data to OutputFile.
+     */
+    public void write(final String output) {
         try {
             FileSystem fs = new FileSystem(mInputPath, mOutputPath);
 
-            fs.writeWord(output);   
+            fs.writeWord(output);
 
             fs.close();
 

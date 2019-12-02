@@ -17,7 +17,7 @@ public final class Map {
         mMap = null;
     }
 
-    private Map(int rows, int columns, List<String> map) {
+    private Map(final int rows, final int columns, final List<String> map) {
         mRows = rows;
         mColumns = columns;
         mMap = map;
@@ -26,7 +26,7 @@ public final class Map {
     /*
      * Returns the location from x, y coordinates.
      */
-    public char getLocation(int x, int y) {
+    public char getLocation(final int x, final int y) {
         try {
             return mInstance.mMap.get(x).charAt(y);
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public final class Map {
     /*
      * Builds the map if it is not already built.
      */
-    public static void buildMap(int rows, int columns, List<String> map) {
+    public static void buildMap(final int rows, final int columns, final List<String> map) {
         if (mInstance == null) {
             mInstance = new Map(rows, columns, map);
         }
@@ -56,6 +56,6 @@ public final class Map {
             throw new NullPointerException("Uninitialized map");
         }
 
-        return mInstance;      
+        return mInstance;
     }
 }

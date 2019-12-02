@@ -28,7 +28,8 @@ public final class PlayerFactory {
         mPlayerTypeByName.put(ROGUE_NAME, PlayerType.RogueType);
     }
 
-    public Player getPlayerByName(String playerName, int xCoordinate, int yCoordinate) {
+    public Player getPlayerByName(final String playerName, final int xCoordinate,
+                                  final int yCoordinate) {
     	try {
         	PlayerType playerType = mPlayerTypeByName.get(playerName);
 
@@ -37,12 +38,14 @@ public final class PlayerFactory {
             	case KnightType:     return new Knight(xCoordinate, yCoordinate, playerName);
             	case WizardType:     return new Wizard(xCoordinate, yCoordinate, playerName);
             	case RogueType:      return new Rogue(xCoordinate, yCoordinate, playerName);
+                default:
+                    break;
         	}
     	} catch (Exception e) {
     		// no matched key
             System.err.println(e.toString());
-            throw new IllegalArgumentException("The player name " + playerName +
-            	" is not recognized.");
+            throw new IllegalArgumentException("The player name " + playerName
+                    + " is not recognized.");
     	}
 
     	return new Pyromancer(0, 0, null); // default in case of error

@@ -3,8 +3,6 @@
 package main;
 
 import gameplay.Map;
-import gameplay.Player;
-import gameplay.PlayerFactory;
 
 public final class Main {
     private Main() {

@@ -2,8 +2,6 @@
 
 package gameplay;
 
-import java.lang.Math;
-
 public abstract class Player {
     protected final String mType;
     protected final int mLevelHitPoints;
@@ -13,12 +11,12 @@ public abstract class Player {
     protected int mExperiencePoints;
     protected int mLevel;
 
-    public int mXCoordinate;
-    public int mYCoordinate;
-    public char mLocation;
+    protected int mXCoordinate;
+    protected int mYCoordinate;
+    protected char mLocation;
 
     protected boolean mAllowedToMove;
-    public int mPeriodicDamage;
+    protected int mPeriodicDamage;
     protected int mPeriod;
 
     protected int mNumHit;
@@ -27,7 +25,8 @@ public abstract class Player {
         this(0, 0, 0, 0, null);
     }
 
-    public Player(final int levelHitPoints, final int baseHitPoints, final int x, final int y, final String type) {
+    public Player(final int levelHitPoints, final int baseHitPoints,
+                  final int x, final int y, final String type) {
         mType = type;
 
         mLevelHitPoints = levelHitPoints;
@@ -49,34 +48,44 @@ public abstract class Player {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         if (isAlive()) {
-            //System.out.printf("%s %d %d %d %d %d%n", mType, mLevel, mExperiencePoints,
             //    mHitPoints, mXCoordinate, mYCoordinate);
-            return mType + " " + String.valueOf(mLevel) + " " +
-                                 String.valueOf(mExperiencePoints) + " " +
-                                 String.valueOf(mHitPoints) + " " +
-                                 String.valueOf(mXCoordinate) + " " +
-                                 String.valueOf(mYCoordinate) + "\n";
+            return mType + " " + String.valueOf(mLevel) + " "
+                    + String.valueOf(mExperiencePoints) + " "
+                    + String.valueOf(mHitPoints) + " "
+                    + String.valueOf(mXCoordinate) + " "
+                    + String.valueOf(mYCoordinate) + "\n";
         } else {
-            //System.out.printf("%s dead%n", mType);
             return mType + " dead\n";
         }
     }
 
-    public void incrementHits() {
+    /*
+     * Increment number of hits.
+     */
+    public final void incrementHits() {
         mNumHit++;
     }
 
-    public boolean isAlive() {
+    /*
+     * Check if player is still alive.
+     */
+    public final boolean isAlive() {
         return mHitPoints != 0;
     }
 
-    protected int getFullLife() {
+    /*
+     * Recover player life.
+     */
+    protected final int getFullLife() {
         return mBaseHitPoints + mLevelHitPoints * mLevel;
-    } 
+    }
 
-    public void getExperiencePoints(final Player player) {
+    /*
+     * Increase experience if player who battled is dead.
+     */ 
+    public final void getExperiencePoints(final Player player) {
         if (!player.isAlive()) {
             mExperiencePoints += Math.max(0, 200 - (mLevel - player.mLevel) * 40);
 
@@ -94,12 +103,15 @@ public abstract class Player {
         }
     }
 
-    public boolean sameLocation(final Player player) {
+    public final boolean sameLocation(final Player player) {
         return mXCoordinate == player.mXCoordinate && mYCoordinate == player.mYCoordinate;
     }
 
-    public void applyPeriodicEffectAndMove(final char move) {
-        if (mAllowedToMove == true && mHitPoints != 0) {
+    /*
+     * Move the player if it is not stunned and apply periodic damage.
+     */
+    public final void applyPeriodicEffectAndMove(final char move) {
+        if (mAllowedToMove && mHitPoints != 0) {
             switch (move) {
                 case 'U': // MOVE UP
                     mXCoordinate--;
@@ -120,8 +132,8 @@ public abstract class Player {
                 case '_': // NO MOVE
                     break;
                 default:
-                    throw new IllegalArgumentException("Move " + String.valueOf(move) +
-                        " is not recognized.");
+                    throw new IllegalArgumentException("Move " + String.valueOf(move)
+                            + " is not recognized.");
             }
         }
 
@@ -132,29 +144,41 @@ public abstract class Player {
 
             if (mPeriod == 0) {
                 mAllowedToMove = true;
-                mPeriodicDamage = 0; 
+                mPeriodicDamage = 0;
             }
         }
     }
 
-    abstract public void acceptAbilityFrom(final Player player);
+    abstract public void acceptAbilityFrom(Player player);
 
-    abstract protected void applyAbilityTo(final Pyromancer player);
-    abstract protected void applyAbilityTo(final Knight player);
-    abstract protected void applyAbilityTo(final Wizard player);
-    abstract protected void applyAbilityTo(final Rogue player);
+    abstract void applyAbilityTo(Pyromancer player);
+    abstract void applyAbilityTo(Knight player);
+    abstract void applyAbilityTo(Wizard player);
+    abstract void applyAbilityTo(Rogue player);
 
-    protected int getDamage() {
+    /*
+     * Get normal damage (not applyed to a type).
+     */   
+    protected final int getDamage() {
         return Math.round(getDamage1()) + Math.round(getDamage2());
     }
 
-    abstract protected float getDamage1();
-    abstract protected float getDamage2();
-    abstract protected float getPeriodicDamage();
+    /*
+     * Damage first ability.
+     */
+    abstract float getDamage1();
+    /*
+     * Damage second ability.
+     */
+    abstract float getDamage2();
+    /*
+     * Damage periodic ability.
+     */
+    abstract float getPeriodicDamage();
 }
 
 final class Pyromancer extends Player {
-    public Pyromancer(final int x, final int y, final String type) {
+    Pyromancer(final int x, final int y, final String type) {
         super(50, 500, x, y, type);
     }
 
@@ -163,8 +187,7 @@ final class Pyromancer extends Player {
     }
 
     protected void applyAbilityTo(final Pyromancer player) {
-        //System.out.println("Pyromancer apply ability to Pyromancer");
-        int damage = Math.round(0.9f * getDamage1()); 
+        int damage = Math.round(0.9f * getDamage1());
         damage += Math.round(0.9f * getDamage2());
         player.mHitPoints = Math.max(0, player.mHitPoints - damage);
 
@@ -174,7 +197,6 @@ final class Pyromancer extends Player {
     }
 
     protected void applyAbilityTo(final Knight player) {
-        //System.out.println("Pyromancer apply ability to Knight");
         int damage = Math.round(1.2f * getDamage1());
         damage += Math.round(1.2f * getDamage2());
         player.mHitPoints = Math.max(0, player.mHitPoints - damage);
@@ -185,7 +207,6 @@ final class Pyromancer extends Player {
     }
 
     protected void applyAbilityTo(final Wizard player) {
-        //System.out.println("Pyromancer apply ability to Wizard");
         int damage = Math.round(1.05f * getDamage1());
         damage += Math.round(1.05f * getDamage2());
         player.mHitPoints = Math.max(0, player.mHitPoints - damage);
@@ -196,13 +217,9 @@ final class Pyromancer extends Player {
     }
 
     protected void applyAbilityTo(final Rogue player) {
-        //System.out.println("Pyromancer apply ability to Rogue");
         int damage = Math.round(0.8f * getDamage1());
         damage += Math.round(0.8f * getDamage2());
         player.mHitPoints = Math.max(0, player.mHitPoints - damage);
-
-
-        //System.out.println("Pyroh " + damage);
 
         player.mAllowedToMove = true;
         player.mPeriodicDamage = Math.round(0.8f * getPeriodicDamage());
@@ -224,7 +241,7 @@ final class Pyromancer extends Player {
             damage = 1.25f * damage;
         }
 
-        return damage; 
+        return damage;
     }
 
     protected float getPeriodicDamage() {
@@ -233,12 +250,12 @@ final class Pyromancer extends Player {
             damage = 1.25f * damage;
         }
 
-        return damage; 
+        return damage;
     }
 }
 
 final class Knight extends Player {
-    public Knight(final int x, final int y, final String type) {
+    Knight(final int x, final int y, final String type) {
         super(80, 900, x, y, type);
     }
 
@@ -247,8 +264,8 @@ final class Knight extends Player {
     }
 
     protected void applyAbilityTo(final Pyromancer player) {
-        //System.out.println("Knight apply ability to Pyromancer");
-        if (player.mHitPoints < Math.round(Math.min(0.2f + 0.01f * mLevel, 0.4f) * player.getFullLife())) {
+        if (player.mHitPoints < Math.round(Math.min(0.2f + 0.01f * mLevel, 0.4f)
+                * player.getFullLife())) {
             player.mHitPoints = 0;
             return;
         }
@@ -263,8 +280,8 @@ final class Knight extends Player {
     }
 
     protected void applyAbilityTo(final Knight player) {
-        //System.out.println("Knight apply ability to Knight");
-        if (player.mHitPoints < Math.round(Math.min(0.2f + 0.01f * mLevel, 0.4f) * player.getFullLife())) {
+        if (player.mHitPoints < Math.round(Math.min(0.2f + 0.01f * mLevel, 0.4f)
+                * player.getFullLife())) {
             player.mHitPoints = 0;
             return;
         }
@@ -279,8 +296,8 @@ final class Knight extends Player {
     }
 
     protected void applyAbilityTo(final Wizard player) {
-        //System.out.println("Knight apply ability to Wizard");
-        if (player.mHitPoints < Math.round(Math.min(0.2f + 0.01f * mLevel, 0.4f) * player.getFullLife())) {
+        if (player.mHitPoints < Math.round(Math.min(0.2f + 0.01f * mLevel, 0.4f)
+                * player.getFullLife())) {
             player.mHitPoints = 0;
             return;
         }
@@ -295,8 +312,8 @@ final class Knight extends Player {
     }
 
     protected void applyAbilityTo(final Rogue player) {
-        //System.out.println("Knight apply ability to Rogue");
-        if (player.mHitPoints < Math.round(Math.min(0.2f + 0.01f * mLevel, 0.4f) * player.getFullLife())) {
+        if (player.mHitPoints < Math.round(Math.min(0.2f + 0.01f * mLevel, 0.4f)
+                * player.getFullLife())) {
             player.mHitPoints = 0;
             return;
         }
@@ -330,11 +347,11 @@ final class Knight extends Player {
 
     protected float getPeriodicDamage() {
         return 0;
-    } 
+    }
 }
 
 final class Wizard extends Player {
-    public Wizard(final int x, final int y, final String type) {
+    Wizard(final int x, final int y, final String type) {
         super(30, 400, x, y, type);
     }
 
@@ -343,23 +360,23 @@ final class Wizard extends Player {
     }
 
     protected void applyAbilityTo(final Pyromancer player) {
-        //System.out.println("Wizard apply ability to Pyromancer");
-        float dmg_drain, dmg_deflect;
+        float dmgDrain, dmgDeflect;
         int damage;
 
-        dmg_drain = (0.2f + 0.05f * mLevel) * (float) Math.min(0.3f * player.getFullLife(), player.mHitPoints);
+        dmgDrain = (0.2f + 0.05f * mLevel) * (float) Math.min(0.3f
+                * player.getFullLife(), player.mHitPoints);
         if (mLocation == 'D') { // Desert Bonus
-            dmg_drain = 1.1f * dmg_drain;
+            dmgDrain = 1.1f * dmgDrain;
         }
-        dmg_drain = Math.round(0.9f * dmg_drain);
+        dmgDrain = Math.round(0.9f * dmgDrain);
 
-        dmg_deflect = (float) Math.min((0.35f + 0.02f * mLevel), 0.7) * player.getDamage();
+        dmgDeflect = (float) Math.min((0.35f + 0.02f * mLevel), 0.7) * player.getDamage();
         if (mLocation == 'D') { // Desert Bonus
-            dmg_deflect = 1.1f * dmg_deflect;
+            dmgDeflect = 1.1f * dmgDeflect;
         }
-        dmg_deflect = Math.round(1.3f * dmg_deflect);
+        dmgDeflect = Math.round(1.3f * dmgDeflect);
 
-        damage = (int) dmg_drain + (int) dmg_deflect;
+        damage = (int) dmgDrain + (int) dmgDeflect;
         player.mHitPoints = Math.max(0, player.mHitPoints - damage);
 
         player.mAllowedToMove = true;
@@ -368,23 +385,23 @@ final class Wizard extends Player {
     }
 
     protected void applyAbilityTo(final Knight player) {
-        //System.out.println("Wizard apply ability to Knight");
-        float dmg_drain, dmg_deflect;
+        float dmgDrain, dmgDeflect;
         int damage;
 
-        dmg_drain = (0.2f + 0.05f * mLevel) * (float) Math.min(0.3f * player.getFullLife(), player.mHitPoints);
+        dmgDrain = (0.2f + 0.05f * mLevel) * (float) Math.min(0.3f
+                * player.getFullLife(), player.mHitPoints);
         if (mLocation == 'D') { // Desert Bonus
-            dmg_drain = 1.1f * dmg_drain;
+            dmgDrain = 1.1f * dmgDrain;
         }
-        dmg_drain = Math.round(1.2f * dmg_drain);
+        dmgDrain = Math.round(1.2f * dmgDrain);
 
-        dmg_deflect = (float) Math.min((0.35f + 0.02f * mLevel), 0.7) * player.getDamage();
+        dmgDeflect = (float) Math.min((0.35f + 0.02f * mLevel), 0.7) * player.getDamage();
         if (mLocation == 'D') { // Desert Bonus
-            dmg_deflect = 1.1f * dmg_deflect;
+            dmgDeflect = 1.1f * dmgDeflect;
         }
-        dmg_deflect = Math.round(1.4f * dmg_deflect);
+        dmgDeflect = Math.round(1.4f * dmgDeflect);
 
-        damage = (int) dmg_drain + (int) dmg_deflect;
+        damage = (int) dmgDrain + (int) dmgDeflect;
         player.mHitPoints = Math.max(0, player.mHitPoints - damage);
 
         player.mAllowedToMove = true;
@@ -393,23 +410,23 @@ final class Wizard extends Player {
     }
 
     protected void applyAbilityTo(final Wizard player) {
-        //System.out.println("Wizard apply ability to Wizard");
-        float dmg_drain, dmg_deflect;
+        float dmgDrain, dmgDeflect;
         int damage;
 
-        dmg_drain = (0.2f + 0.05f * mLevel) * (float) Math.min(0.3f * player.getFullLife(), player.mHitPoints);
+        dmgDrain = (0.2f + 0.05f * mLevel) * (float) Math.min(0.3f
+                * player.getFullLife(), player.mHitPoints);
         if (mLocation == 'D') { // Desert Bonus
-            dmg_drain = 1.1f * dmg_drain;
+            dmgDrain = 1.1f * dmgDrain;
         }
-        dmg_drain = Math.round(1.05f * dmg_drain);
+        dmgDrain = Math.round(1.05f * dmgDrain);
 
-        dmg_deflect = (float) Math.min((0.35f + 0.02f * mLevel), 0.7) * player.getDamage();
+        dmgDeflect = (float) Math.min((0.35f + 0.02f * mLevel), 0.7) * player.getDamage();
         if (mLocation == 'D') { // Desert Bonus
-            dmg_deflect = 1.1f * dmg_deflect;
+            dmgDeflect = 1.1f * dmgDeflect;
         }
-        dmg_deflect = Math.round(0f * dmg_deflect);
+        dmgDeflect = Math.round(0f * dmgDeflect);
 
-        damage = (int) dmg_drain + (int) dmg_deflect;
+        damage = (int) dmgDrain + (int) dmgDeflect;
         player.mHitPoints = Math.max(0, player.mHitPoints - damage);
 
         player.mAllowedToMove = true;
@@ -418,23 +435,23 @@ final class Wizard extends Player {
     }
 
     protected void applyAbilityTo(final Rogue player) {
-        //System.out.println("Wizard apply ability to Rogue");
-        float dmg_drain, dmg_deflect;
+        float dmgDrain, dmgDeflect;
         int damage;
 
-        dmg_drain = (0.2f + 0.05f * mLevel) * (float) Math.min(0.3f * player.getFullLife(), player.mHitPoints);
+        dmgDrain = (0.2f + 0.05f * mLevel) * (float) Math.min(0.3f
+                * player.getFullLife(), player.mHitPoints);
         if (mLocation == 'D') { // Desert Bonus
-            dmg_drain = 1.1f * dmg_drain;
+            dmgDrain = 1.1f * dmgDrain;
         }
-        dmg_drain = Math.round(0.8f * dmg_drain);
+        dmgDrain = Math.round(0.8f * dmgDrain);
 
-        dmg_deflect = (float) Math.min((0.35f + 0.02f * mLevel), 0.7) * player.getDamage();
+        dmgDeflect = (float) Math.min((0.35f + 0.02f * mLevel), 0.7) * player.getDamage();
         if (mLocation == 'D') { // Desert Bonus
-            dmg_deflect = 1.1f * dmg_deflect;
+            dmgDeflect = 1.1f * dmgDeflect;
         }
-        dmg_deflect = Math.round(1.2f * dmg_deflect);
+        dmgDeflect = Math.round(1.2f * dmgDeflect);
 
-        damage = (int) dmg_drain + (int) dmg_deflect;
+        damage = (int) dmgDrain + (int) dmgDeflect;
         player.mHitPoints = Math.max(0, player.mHitPoints - damage);
 
         player.mAllowedToMove = true;
@@ -456,17 +473,15 @@ final class Wizard extends Player {
 }
 
 final class Rogue extends Player {
-    public Rogue(final int x, int y, final String type) {
+    Rogue(final int x, final int y, final String type) {
         super(40, 600, x, y, type);
     }
 
     public void acceptAbilityFrom(final Player player) {
         player.applyAbilityTo(this);
-        //mHitPoints++;
     }
 
     protected void applyAbilityTo(final Pyromancer player) {
-        //System.out.println("Rogue apply ability to Pyromancer");
         int damage = Math.round(1.25f * getDamage1());
         damage += Math.round(1.2f * getDamage2());
         player.mHitPoints = Math.max(0, player.mHitPoints - damage);
@@ -481,7 +496,6 @@ final class Rogue extends Player {
     }
 
     protected void applyAbilityTo(final Knight player) {
-        //System.out.println("Rogue apply ability to Knight");
         int damage = Math.round(0.9f * getDamage1());
         damage += Math.round(0.8f * getDamage2());
         player.mHitPoints = Math.max(0, player.mHitPoints - damage);
@@ -496,7 +510,6 @@ final class Rogue extends Player {
     }
 
     protected void applyAbilityTo(final Wizard player) {
-        //System.out.println("Rogue apply ability to Wizard");
         int damage = Math.round(1.25f * getDamage1());
         damage += Math.round(1.25f * getDamage2());
         player.mHitPoints = Math.max(0, player.mHitPoints - damage);
@@ -511,7 +524,6 @@ final class Rogue extends Player {
     }
 
     protected void applyAbilityTo(final Rogue player) {
-        //System.out.println("Rogue apply ability to Rogue");
         int damage = Math.round(1.2f * getDamage1());
         damage += Math.round(0.9f * getDamage2());
         player.mHitPoints = Math.max(0, player.mHitPoints - damage);
@@ -553,6 +565,6 @@ final class Rogue extends Player {
             damage = Math.round(1.15f * damage);
         }
 
-        return damage; 
+        return damage;
     }
 }
