@@ -28,15 +28,15 @@ public final class PlayerFactory {
         mPlayerTypeByName.put(ROGUE_NAME, PlayerType.RogueType);
     }
 
-    public Player getPlayerByName(String playerName) {
+    public Player getPlayerByName(String playerName, int xCoordinate, int yCoordinate) {
     	try {
         	PlayerType playerType = mPlayerTypeByName.get(playerName);
 
         	switch (playerType) {
-            	case PyromancerType: return new Pyromancer();
-            	case KnightType:     return new Knight();
-            	case WizardType:     return new Wizard();
-            	case RogueType:      return new Rogue();
+            	case PyromancerType: return new Pyromancer(xCoordinate, yCoordinate, playerName);
+            	case KnightType:     return new Knight(xCoordinate, yCoordinate, playerName);
+            	case WizardType:     return new Wizard(xCoordinate, yCoordinate, playerName);
+            	case RogueType:      return new Rogue(xCoordinate, yCoordinate, playerName);
         	}
     	} catch (Exception e) {
     		// no matched key
@@ -45,7 +45,7 @@ public final class PlayerFactory {
             	" is not recognized.");
     	}
 
-    	return new Pyromancer(); // default in case of error
+    	return new Pyromancer(0, 0, null); // default in case of error
     }
 
     public static PlayerFactory getInstance() {

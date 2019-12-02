@@ -7,11 +7,11 @@ import java.util.List;
 
 import fileio.FileSystem;
 
-public final class GameInputLoader {
+public final class GameInputOutputLoader {
     private final String mInputPath;
     private final String mOutputPath;
 
-    public GameInputLoader(final String inputPath, final String outputPath) {
+    public GameInputOutputLoader(final String inputPath, final String outputPath) {
         mInputPath = inputPath;
         mOutputPath = outputPath;
     }
@@ -61,4 +61,16 @@ public final class GameInputLoader {
             xCoordinate, yCoordinate, rounds, moves);
     }
 
+    public void write(String output) {
+        try {
+            FileSystem fs = new FileSystem(mInputPath, mOutputPath);
+
+            fs.writeWord(output);   
+
+            fs.close();
+
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
 }

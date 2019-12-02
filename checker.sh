@@ -165,4 +165,4 @@ checkBonus
 
 calculateScore
 
-cleanHomework
+#cleanHomework

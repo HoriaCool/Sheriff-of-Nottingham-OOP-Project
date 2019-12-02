@@ -14,7 +14,7 @@ public class GameInput {
     private final List<Integer> mYCoordinate;
     private final int mRounds;
     private final List<String> mMoves;
-    private static int mIndexMoves = 0;
+    private int mIndexMoves = 0;
 
     public GameInput() {
         mRows = -1;
