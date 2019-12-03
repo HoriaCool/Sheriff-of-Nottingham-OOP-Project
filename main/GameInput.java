@@ -29,16 +29,16 @@ public class GameInput {
     }
 
     public GameInput(final int rows, final int columns, final List<String> map,
-        final int numPlayers, final List<String> playersType, final List<Integer> xCoordinate,
-        final List<Integer> yCoordinate, final int rounds, final List<String> moves) {
+        final List<String> playersType, final List<Integer> xCoordinate,
+        final List<Integer> yCoordinate, final List<String> moves) {
         mRows = rows;
         mColumns = columns;
         mMap = map;
-        mNumPlayers = numPlayers;
+        mNumPlayers = playersType.size();
         mPlayersType = playersType;
         mXCoordinate = xCoordinate;
         mYCoordinate = yCoordinate;
-        mRounds = rounds;
+        mRounds = moves.size();
         mMoves = moves;
     }
 

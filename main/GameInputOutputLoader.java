@@ -60,8 +60,8 @@ public final class GameInputOutputLoader {
             e1.printStackTrace();
         }
 
-        return new GameInput(rows, columns, map, numPlayers, playersType,
-            xCoordinate, yCoordinate, rounds, moves);
+        return new GameInput(rows, columns, map, playersType,
+            xCoordinate, yCoordinate, moves);
     }
 
     /*
