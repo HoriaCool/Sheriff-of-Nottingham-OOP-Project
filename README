@@ -47,3 +47,6 @@ pentru implementare visitor design;
 	- fiecare player are definite astfel accept_interactiune alt player si
 interactiune cu alt player care, in cazul jocului nostru, reprezinta aplicarea si
 acceptarea abilitatilor si a damage-ului celuilalt player.
+
+	Deoarece clasele au fost dezvoltate in scopul folosirii de catre alti programatori,
+abordam o programare defensiva (try catch errors).
